@@ -1,0 +1,58 @@
+{
+  "name": "@atlascompiler/mcp",
+  "version": "1.0.0",
+  "description": "Official Model Context Protocol (MCP) server for Atlas - Deterministic Zero-LLM Web Compiler",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "atlas-mcp": "./dist/cli.js",
+    "atlas": "./dist/cli.js",
+    "mcp": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "skills"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts src/cli.ts --format esm --dts --clean",
+    "check": "pnpm build && pnpm lint && pnpm typecheck && pnpm test",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/core": "2.0.0",
+    "@modelcontextprotocol/server": "2.0.0",
+    "zod": "^3.24.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/node": "26.1.1",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "2.1.9"
+  },
+  "keywords": [
+    "atlas",
+    "mcp",
+    "model-context-protocol",
+    "llm",
+    "web-compiler",
+    "markdown"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Atlas-Compiler/Atlas.git",
+    "directory": "mcp"
+  },
+  "homepage": "https://docs.atlas-compiler.com/ai/mcp-overview",
+  "engines": {
+    "node": ">=22"
+  },
+  "bugs": {
+    "url": "https://github.com/Atlas-Compiler/Atlas/issues"
+  }
+}

@@ -1,0 +1,48 @@
+name: Feature Request
+description: Suggest an idea or enhancement for Atlas SDKs, MCP server, or tools
+title: "[Feature]: "
+labels: ["type: feature", "status: needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing an enhancement! You can also discuss ideas with us on [Discord](https://discord.gg/z9ktRhuudq).
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Target Component
+      options:
+        - "MCP Server (@atlascompiler/mcp)"
+        - "TypeScript / JavaScript SDK (@atlascompiler/sdk)"
+        - "Python SDK (atlascompiler)"
+        - "Go SDK (go.atlas-compiler.com/sdk)"
+        - "Agent Skill (Cursor / Claude Desktop / Windsurf)"
+        - "Examples"
+        - "General / Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Use Case
+      description: What problem are you trying to solve, or what workflow would this enable?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution / API Design
+      description: Describe your proposed solution or API change in as much detail as possible.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What workarounds or alternative approaches have you considered?

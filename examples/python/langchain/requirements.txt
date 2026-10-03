@@ -1,0 +1,2 @@
+atlascompiler>=1.0.0
+langchain-core>=0.3.0

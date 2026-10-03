@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discord Community
+    url: https://discord.gg/z9ktRhuudq
+    about: Join our developer Discord for fast support, questions, and discussion
+  - name: 💡 GitHub Discussions
+    url: https://github.com/Atlas-Compiler/Atlas/discussions
+    about: Ask questions, share recipes, and discuss ideas
+  - name: 📖 Documentation
+    url: https://docs.atlas-compiler.com
+    about: Check the official docs and API explorer before filing an issue
+  - name: 🔒 Security Vulnerability
+    url: mailto:support@atlas-compiler.com
+    about: Report security vulnerabilities privately

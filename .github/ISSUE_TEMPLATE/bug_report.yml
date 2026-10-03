@@ -1,0 +1,75 @@
+name: Bug Report
+description: Report a bug or issue in Atlas SDKs, MCP server, or tools
+title: "[Bug]: "
+labels: ["type: bug", "status: needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! For real-time questions, you can also join our [Discord Community](https://discord.gg/z9ktRhuudq).
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      options:
+        - "MCP Server (@atlascompiler/mcp)"
+        - "TypeScript / JavaScript SDK (@atlascompiler/sdk)"
+        - "Python SDK (atlascompiler)"
+        - "Go SDK (go.atlas-compiler.com/sdk)"
+        - "Agent Skill (Cursor / Claude Desktop / Windsurf)"
+        - "Examples"
+        - "General API / Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Minimal code snippet or steps to reproduce the behavior.
+      placeholder: |
+        1. Initialize client...
+        2. Call compile/scrape with...
+        3. See error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened (include error messages or stack traces).
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Package / Runtime Version
+      description: Package version, Node.js/Python/Go version, or OS
+      placeholder: "@atlascompiler/sdk@1.0.0, Node 22 on macOS"
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other context, logs, or screenshots.

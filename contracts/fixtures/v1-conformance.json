@@ -1,0 +1,375 @@
+{
+  "job": {
+    "artifactExpiresAt": "2026-07-18T00:00:00.000Z",
+    "artifactState": "complete",
+    "cancellationRequestedAt": null,
+    "createdAt": "2026-07-17T00:00:00.000Z",
+    "executionTerminalAt": "2026-07-17T00:01:00.000Z",
+    "id": "job_01J00000000000000000000000",
+    "kind": "crawl",
+    "progress": { "completedItems": 1, "failedItems": 0, "queuedItems": 0, "etaSeconds": 0, "ratePerMinute": 60 },
+    "projectId": "prj_01J00000000000000000000000",
+    "readyAt": "2026-07-17T00:01:01.000Z",
+    "reviewReason": null,
+    "status": "ready",
+    "updatedAt": "2026-07-17T00:01:01.000Z",
+    "workspaceId": "ws_01J00000000000000000000000"
+  },
+  "problem": {
+    "code": "validation_failed",
+    "detail": "One or more request parameters are invalid.",
+    "instance": "/v1/workspaces/ws_01J00000000000000000000000/compile",
+    "invalidParams": [{ "name": "url", "reason": "Invalid URL" }],
+    "requestId": "req_01J00000000000000000000000",
+    "retryable": false,
+    "status": 400,
+    "title": "Request validation failed",
+    "type": "https://api.atlas-compiler.com/problems/validation-failed"
+  },
+  "cancellation": {
+    "accepted": true,
+    "reason": "cancellation_requested",
+    "job": {
+      "artifactExpiresAt": null,
+      "artifactState": "pending",
+      "cancellationRequestedAt": "2026-07-17T00:00:30.000Z",
+      "createdAt": "2026-07-17T00:00:00.000Z",
+      "executionTerminalAt": null,
+      "id": "job_01J00000000000000000000000",
+      "kind": "crawl",
+      "progress": { "completedItems": 0, "failedItems": 0, "queuedItems": 1, "etaSeconds": null, "ratePerMinute": null },
+      "projectId": "prj_01J00000000000000000000000",
+      "readyAt": null,
+      "reviewReason": null,
+      "status": "cancelled",
+      "updatedAt": "2026-07-17T00:00:30.000Z",
+      "workspaceId": "ws_01J00000000000000000000000"
+    }
+  },
+  "resultPage": {
+    "data": [{
+      "completedAt": "2026-07-17T00:01:00.000Z",
+      "id": "artifact_0123456789abcdef0123456789abcdef01234567",
+      "ir": {
+        "version": "1",
+        "metadata": {
+          "canonicalUrl": "https://example.com/article",
+          "title": "Example Article"
+        },
+        "contentGraph": {
+          "nodes": {
+            "node-root": {
+              "attributes": { "class": "article" },
+              "children": ["node-heading"],
+              "content": "Example Article",
+              "id": "node-root",
+              "parent": "",
+              "provenance": { "selector": "main", "tag": "main" },
+              "type": "section"
+            },
+            "node-heading": {
+              "children": [],
+              "content": "Example Article",
+              "id": "node-heading",
+              "level": 1,
+              "parent": "node-root",
+              "type": "heading"
+            }
+          },
+          "readingOrder": ["node-root", "node-heading"]
+        }
+      },
+      "markdown": "# Result",
+      "metadata": null,
+      "url": "https://example.com/article"
+    }],
+    "nextCursor": null
+  },
+  "errorPage": {
+    "data": [{
+      "code": "fetch_failed",
+      "detail": "The page could not be fetched.",
+      "id": "artifact_89abcdef0123456789abcdef0123456789abcdef",
+      "occurredAt": "2026-07-17T00:01:00.000Z",
+      "url": "https://example.com/failure"
+    }],
+    "nextCursor": null
+  },
+  "compileRequest": {
+    "cache": { "forceFresh": false, "maxAgeSeconds": 60 },
+    "projectId": "prj_01J00000000000000000000000",
+    "url": "https://example.com/article"
+  },
+  "user": {
+    "id": "usr_01J00000000000000000000000",
+    "email": "user@example.com",
+    "displayName": "Example User",
+    "createdAt": "2026-07-17T00:00:00.000Z",
+    "updatedAt": "2026-07-17T00:01:00.000Z"
+  },
+  "workspacePage": {
+    "data": [{
+      "id": "ws_01J00000000000000000000000",
+      "name": "Example Workspace",
+      "slug": "example-workspace",
+      "isPrimary": true,
+      "status": "active",
+      "role": "owner",
+      "defaultProject": {
+        "id": "prj_01J00000000000000000000000",
+        "name": "Starter",
+        "slug": "starter"
+      },
+      "planSnapshot": {
+        "id": "psn_01J00000000000000000000000",
+        "schemaVersion": 1,
+        "plan": { "code": "free", "version": 1 },
+        "snapshotVersion": 1,
+        "features": [
+          { "key": "collaboration", "enabled": false },
+          { "key": "priority_support", "enabled": false }
+        ],
+        "limits": [
+          { "key": "maxMembers", "value": 1, "unit": "member" }
+        ]
+      },
+      "createdAt": "2026-07-17T00:00:00.000Z",
+      "updatedAt": "2026-07-17T00:01:00.000Z",
+      "version": 1
+    }],
+    "nextCursor": null
+  },
+  "workspaceBootstrap": {
+    "contractVersion": "phase1-workspace-v1",
+    "user": { "id": "usr_01J00000000000000000000000" },
+    "workspace": {
+      "id": "ws_01J00000000000000000000000",
+      "name": "Personal Workspace",
+      "slug": "w-abcdefghij",
+      "isPrimary": true,
+      "status": "active",
+      "role": "owner",
+      "defaultProject": {
+        "id": "prj_01J00000000000000000000000",
+        "name": "Starter",
+        "slug": "starter"
+      },
+      "planSnapshot": {
+        "id": "psn_01J00000000000000000000000",
+        "schemaVersion": 1,
+        "plan": { "code": "free", "version": 1 },
+        "snapshotVersion": 1,
+        "features": [
+          { "key": "collaboration", "enabled": false },
+          { "key": "priority_support", "enabled": false }
+        ],
+        "limits": [
+          { "key": "maxMembers", "value": 1, "unit": "member" }
+        ]
+      },
+      "createdAt": "2026-07-17T00:00:00.000Z",
+      "updatedAt": "2026-07-17T00:00:00.000Z",
+      "version": 1
+    }
+  },
+  "resolvedWorkspace": {
+    "contractVersion": "phase1-workspace-v1",
+    "workspace": {
+      "id": "ws_01J00000000000000000000000",
+      "name": "Example Workspace",
+      "slug": "example-workspace",
+      "isPrimary": false,
+      "status": "active",
+      "role": "owner",
+      "defaultProject": null,
+      "planSnapshot": {
+        "id": "psn_01J00000000000000000000000",
+        "schemaVersion": 1,
+        "plan": { "code": "free", "version": 1 },
+        "snapshotVersion": 1,
+        "features": [],
+        "limits": []
+      },
+      "createdAt": "2026-07-17T00:00:00.000Z",
+      "updatedAt": "2026-07-17T00:01:00.000Z",
+      "version": 1
+    }
+  },
+  "workspaceDeletion": {
+    "id": "del_01J00000000000000000000000",
+    "workspaceId": "ws_01J00000000000000000000000",
+    "stage": "requested",
+    "requestedAt": "2026-07-17T00:00:00.000Z",
+    "updatedAt": "2026-07-17T00:00:00.000Z",
+    "completedAt": null
+  },
+  "memberPage": {
+    "data": [{
+      "userId": "usr_01J00000000000000000000000",
+      "email": "user@example.com",
+      "displayName": "Example User",
+      "role": "owner",
+      "createdAt": "2026-07-17T00:00:00.000Z",
+      "updatedAt": "2026-07-17T00:01:00.000Z"
+    }],
+    "nextCursor": null
+  },
+  "invitationPage": {
+    "data": [{
+      "id": "inv_01J00000000000000000000000",
+      "email": "invitee@example.com",
+      "role": "developer",
+      "status": "pending",
+      "expiresAt": "2026-07-24T00:00:00.000Z",
+      "createdAt": "2026-07-17T00:00:00.000Z",
+      "updatedAt": "2026-07-17T00:00:00.000Z"
+    }],
+    "nextCursor": null
+  },
+  "projectPage": {
+    "data": [{
+      "id": "prj_01J00000000000000000000000",
+      "workspaceId": "ws_01J00000000000000000000000",
+      "name": "Example Project",
+      "slug": "example-project",
+      "status": "active",
+      "deletedAt": null,
+      "createdAt": "2026-07-17T00:00:00.000Z",
+      "updatedAt": "2026-07-17T00:01:00.000Z",
+      "version": 1
+    }],
+    "nextCursor": null
+  },
+  "apiKey": {
+    "id": "key_01J00000000000000000000000",
+    "workspaceId": "ws_01J00000000000000000000000",
+    "projectId": null,
+    "name": "Example key",
+    "prefix": "atlas_live_example",
+    "scopes": ["execute"],
+    "expiresAt": null,
+    "lastUsedAt": null,
+    "revokedAt": null,
+    "deprecatedAt": null,
+    "fingerprintSuffix": null,
+    "ipAllowlist": null,
+    "createdAt": "2026-07-17T00:00:00.000Z"
+  },
+  "apiKeyPage": {
+    "data": [{
+      "id": "key_01J00000000000000000000000",
+      "workspaceId": "ws_01J00000000000000000000000",
+      "projectId": null,
+      "name": "Example key",
+      "prefix": "atlas_live_example",
+      "scopes": ["execute"],
+      "expiresAt": null,
+      "lastUsedAt": null,
+      "revokedAt": null,
+      "deprecatedAt": null,
+      "fingerprintSuffix": null,
+      "ipAllowlist": null,
+      "createdAt": "2026-07-17T00:00:00.000Z"
+    }],
+    "nextCursor": null
+  },
+  "usage": {
+    "plan": { "code": "free", "version": 1 },
+    "accounts": [{
+      "metric": "credits",
+      "periodStart": "2026-07-01T00:00:00.000Z",
+      "periodEnd": "2026-08-01T00:00:00.000Z",
+      "allowance": 100,
+      "reserved": 1,
+      "consumed": 2,
+      "blockedAt": null,
+      "blockReason": null,
+      "updatedAt": "2026-07-17T00:01:00.000Z"
+    }],
+    "grants": [{
+      "metric": "credits",
+      "units": 250,
+      "consumed": 0,
+      "expiresAt": null
+    }]
+  },
+  "ledgerPage": {
+    "data": [{
+      "id": "led_01J00000000000000000000000",
+      "metric": "credits",
+      "periodStart": "2026-07-01T00:00:00.000Z",
+      "reservationId": null,
+      "eventKey": "credit:example",
+      "entryType": "credit",
+      "reservedDelta": 0,
+      "consumedDelta": -1,
+      "source": "operator",
+      "metadata": {
+        "attempt": 1,
+        "flags": [true, null],
+        "nested": { "source": "fixture" },
+        "operationId": "compile:job_01J00000000000000000000000"
+      },
+      "createdAt": "2026-07-17T00:00:00.000Z"
+    }],
+    "nextCursor": null
+  },
+  "subscription": {
+    "workspaceId": "ws_01J00000000000000000000000",
+    "planCode": "pro",
+    "planVersion": 1,
+    "status": "active",
+    "periodStart": "2026-07-01T00:00:00.000Z",
+    "periodEnd": "2026-08-01T00:00:00.000Z",
+    "cancelAtPeriodEnd": false,
+    "graceExpiresAt": null,
+    "pendingPlan": {
+      "planCode": "free",
+      "planVersion": 1,
+      "effectiveAt": "2026-08-01T00:00:00.000Z"
+    },
+    "updatedAt": "2026-07-17T00:01:00.000Z"
+  },
+  "webhookEndpoint": {
+    "id": "whk_01J00000000000000000000000",
+    "workspaceId": "ws_01J00000000000000000000000",
+    "url": "https://hooks.example.com/atlas",
+    "events": ["job.ready"],
+    "status": "active",
+    "configVersion": 1,
+    "signingSecretVersion": 1,
+    "createdAt": "2026-07-17T00:00:00.000Z",
+    "updatedAt": "2026-07-17T00:01:00.000Z"
+  },
+  "webhookEndpointPage": {
+    "data": [{
+      "id": "whk_01J00000000000000000000000",
+      "workspaceId": "ws_01J00000000000000000000000",
+      "url": "https://hooks.example.com/atlas",
+      "events": ["job.ready"],
+      "status": "active",
+      "configVersion": 1,
+      "signingSecretVersion": 1,
+      "createdAt": "2026-07-17T00:00:00.000Z",
+      "updatedAt": "2026-07-17T00:01:00.000Z"
+    }],
+    "nextCursor": null
+  },
+  "webhookDeliveryPage": {
+    "data": [{
+      "id": "dlv_01J00000000000000000000000",
+      "endpointId": "whk_01J00000000000000000000000",
+      "eventId": "evt_01J00000000000000000000000",
+      "eventType": "job.ready",
+      "status": "succeeded",
+      "attemptCount": 1,
+      "nextAttemptAt": null,
+      "lastStatusCode": 204,
+      "lastError": null,
+      "responseCompletedAt": "2026-07-17T00:01:00.000Z",
+      "createdAt": "2026-07-17T00:00:00.000Z",
+      "updatedAt": "2026-07-17T00:01:00.000Z"
+    }],
+    "nextCursor": null
+  }
+}

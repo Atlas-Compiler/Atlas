@@ -1,0 +1,51 @@
+{
+  "name": "@atlascompiler/sdk",
+  "version": "1.0.0",
+  "description": "Official Atlas JavaScript/TypeScript SDK",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/node": "26.1.1",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "2.1.9"
+  },
+  "keywords": [
+    "atlas",
+    "sdk",
+    "llm",
+    "web-compiler",
+    "markdown"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Atlas-Compiler/Atlas.git",
+    "directory": "sdk/js"
+  },
+  "homepage": "https://docs.atlas-compiler.com/sdk/javascript",
+  "bugs": {
+    "url": "https://github.com/Atlas-Compiler/Atlas/issues"
+  }
+}

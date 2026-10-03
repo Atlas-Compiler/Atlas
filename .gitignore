@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+dist/
+build/
+coverage/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.eggs/
+
+# Go
+bin/
+*.exe
+*.test
+*.out
+
+# Environment & IDE
+.env*
+!.env.example
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
