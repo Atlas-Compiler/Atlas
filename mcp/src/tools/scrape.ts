@@ -122,6 +122,7 @@ export function createRemoteScrapeExecutor(context: AtlasClientContext): ScrapeE
         links?: Array<{ url: string; text: string }>;
         stats?: { character_count?: number; word_count?: number; read_time_seconds?: number };
       };
+      metadata?: { title?: string; canonicalUrl?: string };
       // fallback in case of direct root
       url?: string;
       title?: string;
@@ -132,10 +133,25 @@ export function createRemoteScrapeExecutor(context: AtlasClientContext): ScrapeE
     };
 
     const root = data.data ?? data;
-    const title = root.title ?? args.url;
+    const title = data.metadata?.title ?? root.title ?? args.url;
+    const resolvedUrl = data.metadata?.canonicalUrl ?? root.url ?? args.url;
     let markdown = root.markdown;
     let text = root.text ?? (requestedFormats.includes('text') ? markdown : undefined);
-    const links = root.links;
+    const rawLinks = (root.links ?? (data as Record<string, unknown>).links) as
+      | unknown[]
+      | undefined;
+    const links: Array<{ url: string; text: string }> | undefined = Array.isArray(rawLinks)
+      ? rawLinks.map((item: unknown) => {
+          if (typeof item === 'string') {
+            return { url: item, text: item };
+          }
+          if (item && typeof item === 'object' && 'url' in item) {
+            const obj = item as { url: string; text?: string };
+            return { url: obj.url, text: obj.text || obj.url };
+          }
+          return { url: String(item), text: String(item) };
+        })
+      : undefined;
 
     const maxChars = args.max_output_chars ?? 30000;
     let truncated = false;
@@ -154,7 +170,7 @@ export function createRemoteScrapeExecutor(context: AtlasClientContext): ScrapeE
     const readTimeSeconds = Math.max(1, Math.ceil(wordCount / 4));
 
     return {
-      url: root.url ?? args.url,
+      url: resolvedUrl,
       title,
       markdown,
       text,
