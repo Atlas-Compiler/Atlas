@@ -39,7 +39,7 @@ This monorepo houses the public ecosystem and developer tools for Atlas:
 | **Model Context Protocol** | [`mcp/`](./mcp) | MCP Standard (2026 era) | `npx -y @atlascompiler/mcp init` |
 | **TypeScript / JS SDK** | [`sdk/js/`](./sdk/js) | TypeScript / Node / Deno / Bun | `npm install @atlascompiler/sdk` |
 | **Python SDK** | [`sdk/python/`](./sdk/python) | Python 3.10+ (httpx, typing) | `pip install atlascompiler` |
-| **Go SDK** | [`sdk/go/`](./sdk/go) | Go 1.22+ | `go get go.atlas-compiler.com/sdk/pkg/atlas` |
+| **Go SDK** | [`sdk/go/`](./sdk/go) | Go 1.22+ | `go get go.atlas-compiler.com/sdk` |
 | **Atlas Agent Skills** | [`skills/`](./skills) | Agent Skill Specification | Canonical recipes for AI assistants |
 | **Starter Examples** | [`examples/`](./examples) | Node, Python, Go, cURL | Runnable recipes & templates |
 
@@ -120,7 +120,7 @@ with AtlasClient(os.getenv("ATLAS_API_KEY")) as client:
 ### 4. Go
 
 ```bash
-go get go.atlas-compiler.com/sdk/pkg/atlas
+go get go.atlas-compiler.com/sdk
 ```
 
 ```go
@@ -132,7 +132,7 @@ import (
 	"log"
 	"os"
 
-	"go.atlas-compiler.com/sdk/pkg/atlas"
+	"go.atlas-compiler.com/sdk"
 )
 
 func main() {

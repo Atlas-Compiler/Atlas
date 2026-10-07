@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"go.atlas-compiler.com/sdk/pkg/atlas"
+	"go.atlas-compiler.com/sdk"
 )
 
 func main() {
@@ -37,8 +37,8 @@ func main() {
 
 	if res.Response200 != nil {
 		fmt.Printf("Compiled in HTTP %d (Replayed: %t)\n", meta.StatusCode, meta.Replayed)
-		fmt.Printf("Title: %s\n", res.Response200.Data.Title)
-		fmt.Printf("\n--- Markdown ---\n%s\n", res.Response200.Data.Markdown)
+		fmt.Printf("Title: %s\n", res.Response200.Metadata.Title)
+		fmt.Printf("\n--- Markdown ---\n%s\n", res.Response200.Markdown)
 	} else if res.Response202 != nil {
 		jobID := res.Response202.Id
 		fmt.Printf("Job queued with ID %s. Waiting for completion...\n", jobID)

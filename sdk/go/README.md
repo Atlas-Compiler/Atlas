@@ -5,7 +5,7 @@ The official Go client library for the [Atlas](https://atlas-compiler.com) API.
 ## Installation
 
 ```bash
-go get go.atlas-compiler.com/sdk/pkg/atlas
+go get go.atlas-compiler.com/sdk
 ```
 
 ## Quick Start
@@ -22,7 +22,7 @@ import (
 	"os"
 	"time"
 
-	"go.atlas-compiler.com/sdk/pkg/atlas"
+	"go.atlas-compiler.com/sdk"
 )
 
 func main() {

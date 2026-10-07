@@ -12,7 +12,7 @@ import (
 )
 
 func TestSharedProblemFixture(t *testing.T) {
-	content, err := os.ReadFile("../../../../contracts/fixtures/v1-conformance.json")
+	content, err := os.ReadFile("../../contracts/fixtures/v1-conformance.json")
 	if err != nil {
 		t.Fatal(err)
 	}
