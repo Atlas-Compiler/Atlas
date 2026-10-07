@@ -1,7 +1,7 @@
 {
   "name": "@atlascompiler/sdk",
   "version": "1.0.0",
-  "description": "Official Atlas JavaScript/TypeScript SDK",
+  "description": "Official Atlas JavaScript & TypeScript SDK - Deterministic Zero-LLM Web Compiler and Scraper for AI",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -34,11 +34,24 @@
   "keywords": [
     "atlas",
     "sdk",
-    "llm",
+    "web-scraper",
+    "web-scraping",
+    "web-crawler",
+    "web-crawling",
+    "content-extraction",
+    "html-to-markdown",
+    "markdown",
     "web-compiler",
-    "markdown"
+    "ai-agent",
+    "agentic-ai",
+    "llm",
+    "rag",
+    "typescript"
   ],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Atlas-Compiler/Atlas.git",

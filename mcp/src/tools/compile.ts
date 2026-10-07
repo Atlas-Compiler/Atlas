@@ -86,6 +86,7 @@ export function createRemoteCompileExecutor(context: AtlasClientContext): Compil
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      'Idempotency-Key': crypto.randomUUID(),
     };
 
     if (context.apiKey) {

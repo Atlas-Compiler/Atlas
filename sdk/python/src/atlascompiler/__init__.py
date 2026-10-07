@@ -324,7 +324,7 @@ RotateApiKeyResponse200 = TypedDict("RotateApiKeyResponse200", {"createdAt": str
 
 CreateBillingCheckoutParameters = TypedDict("CreateBillingCheckoutParameters", {"workspaceId": str, "idempotency-key": str})
 
-CreateBillingCheckoutRequest = TypedDict("CreateBillingCheckoutRequest", {"billingCycle": NotRequired[Literal["monthly", "annual"]], "planCode": str})
+CreateBillingCheckoutRequest = TypedDict("CreateBillingCheckoutRequest", {"billingCycle": NotRequired[Literal["monthly", "annual"]], "customerName": NotRequired[str], "planCode": str})
 
 CreateBillingCheckoutResponse200 = TypedDict("CreateBillingCheckoutResponse200", {"url": str})
 
@@ -358,7 +358,7 @@ GetBillingSubscriptionResponse200 = TypedDict("GetBillingSubscriptionResponse200
 
 CreateBillingTopupCheckoutParameters = TypedDict("CreateBillingTopupCheckoutParameters", {"workspaceId": str, "idempotency-key": str})
 
-CreateBillingTopupCheckoutRequest = TypedDict("CreateBillingTopupCheckoutRequest", {"boostCode": Literal["5k", "25k", "100k", "500k", "1m"]})
+CreateBillingTopupCheckoutRequest = TypedDict("CreateBillingTopupCheckoutRequest", {"boostCode": Literal["5k", "25k", "100k", "500k", "1m"], "customerName": NotRequired[str]})
 
 CreateBillingTopupCheckoutResponse200 = TypedDict("CreateBillingTopupCheckoutResponse200", {"url": str})
 

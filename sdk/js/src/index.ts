@@ -888,6 +888,7 @@ export type RotateApiKeyResponse = {
 export type CreateBillingCheckoutParameters = { workspaceId: string; 'idempotency-key': string };
 export type CreateBillingCheckoutRequest = {
   billingCycle?: 'monthly' | 'annual';
+  customerName?: string;
   planCode: string;
 };
 export type CreateBillingCheckoutResponse = { url: string };
@@ -963,6 +964,7 @@ export type CreateBillingTopupCheckoutParameters = {
 };
 export type CreateBillingTopupCheckoutRequest = {
   boostCode: '5k' | '25k' | '100k' | '500k' | '1m';
+  customerName?: string;
 };
 export type CreateBillingTopupCheckoutResponse = { url: string };
 export type GetBillingTopupCatalogParameters = { workspaceId: string };

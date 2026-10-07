@@ -2147,6 +2147,7 @@ type RotateApiKeyResponse200 struct {
 }
 type CreateBillingCheckoutRequest struct {
 	BillingCycle *CreateBillingCheckoutRequestBillingCycle `json:"billingCycle,omitempty"`
+	CustomerName *string                                   `json:"customerName,omitempty"`
 	PlanCode     string                                    `json:"planCode"`
 }
 type CreateBillingCheckoutResponse200 struct {
@@ -2214,7 +2215,8 @@ type GetBillingSubscriptionResponse200 struct {
 	WorkspaceId string                                  `json:"workspaceId"`
 }
 type CreateBillingTopupCheckoutRequest struct {
-	BoostCode CreateBillingTopupCheckoutRequestBoostCode `json:"boostCode"`
+	BoostCode    CreateBillingTopupCheckoutRequestBoostCode `json:"boostCode"`
+	CustomerName *string                                    `json:"customerName,omitempty"`
 }
 type CreateBillingTopupCheckoutResponse200 struct {
 	Url string `json:"url"`
