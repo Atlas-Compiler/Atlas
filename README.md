@@ -8,10 +8,15 @@
     <a href="https://discord.gg/z9ktRhuudq"><img src="https://img.shields.io/badge/Discord-Join%20Community-5865F2?logo=discord&logoColor=white" alt="Discord" /></a>
     <a href="https://docs.atlas-compiler.com"><img src="https://img.shields.io/badge/Docs-docs.atlas--compiler.com-15342D" alt="Documentation" /></a>
     <a href="https://dashboard.atlas-compiler.com"><img src="https://img.shields.io/badge/Dashboard-dashboard.atlas--compiler.com-246B5A" alt="Dashboard" /></a>
-    <a href="https://www.npmjs.com/package/@atlascompiler/sdk"><img src="https://img.shields.io/npm/v/@atlascompiler/sdk?color=cb3837&label=@atlascompiler/sdk" alt="npm sdk" /></a>
-    <a href="https://www.npmjs.com/package/@atlascompiler/mcp"><img src="https://img.shields.io/npm/v/@atlascompiler/mcp?color=cb3837&label=@atlascompiler/mcp" alt="npm mcp" /></a>
-    <a href="https://pypi.org/project/atlascompiler/"><img src="https://img.shields.io/pypi/v/atlascompiler?color=3775A9&label=PyPI" alt="PyPI" /></a>
     <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+  </p>
+
+  <p>
+    <a href="https://www.npmjs.com/package/@atlascompiler/sdk"><img src="https://img.shields.io/npm/v/@atlascompiler/sdk?color=cb3837&label=@atlascompiler/sdk&logo=typescript&logoColor=white" alt="npm sdk" /></a>
+    <a href="https://pypi.org/project/atlascompiler/"><img src="https://img.shields.io/pypi/v/atlascompiler?color=3775A9&label=atlascompiler&logo=python&logoColor=white" alt="PyPI" /></a>
+    <a href="https://pkg.go.dev/go.atlas-compiler.com/sdk"><img src="https://img.shields.io/badge/Go%20SDK-go.atlas--compiler.com%2Fsdk-007D9C?logo=go&logoColor=white" alt="Go SDK" /></a>
+    <a href="https://www.npmjs.com/package/@atlascompiler/mcp"><img src="https://img.shields.io/npm/v/@atlascompiler/mcp?color=cb3837&label=@atlascompiler/mcp&logo=npm&logoColor=white" alt="npm mcp" /></a>
+    <a href="https://registry.modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP%20Registry-com.atlas--compiler%2Fatlas-15342D" alt="MCP Registry" /></a>
   </p>
 </div>
 

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.atlas-compiler/atlas",
+  "title": "Atlas Web Compiler & Scraper",
+  "description": "Deterministic Zero-LLM Web Compiler, Scraper, Crawler, and Site Mapper for AI Agents.",
+  "version": "1.0.3",
+  "websiteUrl": "https://atlas-compiler.com",
+  "icons": [
+    {
+      "src": "https://atlas-compiler.com/icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/Atlas-Compiler/Atlas",
+    "source": "github",
+    "subfolder": "mcp"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@atlascompiler/mcp",
+      "version": "1.0.3",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "ATLAS_API_KEY",
+          "description": "Atlas API Key for deterministic high-throughput web scraping and compilation",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.atlas-compiler.com/mcp"
+    }
+  ]
+}

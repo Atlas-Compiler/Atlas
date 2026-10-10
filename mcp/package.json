@@ -1,6 +1,7 @@
 {
   "name": "@atlascompiler/mcp",
-  "version": "1.0.2",
+  "version": "1.0.3",
+  "mcpName": "com.atlas-compiler/atlas",
   "description": "Official Model Context Protocol (MCP) server for Atlas - Deterministic Zero-LLM Web Compiler and Scraper for AI Agents",
   "type": "module",
   "main": "./dist/index.js",
