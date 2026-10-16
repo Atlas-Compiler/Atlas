@@ -3,7 +3,7 @@
   "name": "com.atlas-compiler/atlas",
   "title": "Atlas Web Compiler & Scraper",
   "description": "Deterministic Zero-LLM Web Compiler, Scraper, Crawler, and Site Mapper for AI Agents.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "websiteUrl": "https://atlas-compiler.com",
   "icons": [
     {
@@ -23,7 +23,7 @@
     {
       "registryType": "npm",
       "identifier": "@atlascompiler/mcp",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"

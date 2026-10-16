@@ -14,33 +14,74 @@ npm install @atlascompiler/sdk
 yarn add @atlascompiler/sdk
 ```
 
-## Quick Start
+## Authentication
 
-### Initialize Client
+Get your API key from the [Atlas Dashboard](https://dashboard.atlas-compiler.com).
+
+All Atlas SDKs automatically read the `ATLAS_API_KEY` environment variable:
+
+```bash
+export ATLAS_API_KEY="atlas_your_api_key_here"
+```
+
+You can also pass your API key directly to the client constructor:
 
 ```ts
 import { AtlasClient } from '@atlascompiler/sdk';
 
+// Option A: Explicit manual API key
 const client = new AtlasClient({
-  apiKey: process.env.ATLAS_API_KEY,
-  workspaceId: process.env.ATLAS_WORKSPACE_ID, // optional for global endpoints
+  apiKey: 'atlas_your_api_key_here',
+  // workspaceId: 'ws_...', // optional
 });
+
+// Option B: Automatically loaded from process.env.ATLAS_API_KEY
+// const client = new AtlasClient();
 ```
 
-### Compile or Scrape a Web Page
+## Usage
+
+### Scrape a page
+
+Extract clean Markdown and discovered links from any web page in real-time (sub-1.5s):
 
 ```ts
-// Compile: Automatically generates an execution-scoped UUIDv4 idempotency key
-// if none is explicitly provided.
-const response = await client.compile({
-  url: 'https://example.com/article',
+const response = await client.scrape({
+  url: 'https://atlas-compiler.com',
+  formats: ['markdown', 'links'],
 });
 
 if (response.status === 200) {
-  // Synchronous instant compilation
-  console.log('Markdown:', response.value.markdown);
-} else {
-  // 202 Accepted: Asynchronous compilation job
+  console.log('Title:', response.value.metadata?.title);
+  console.log('Markdown:\n', response.value.data.markdown);
+}
+```
+
+### Compile a page
+
+Perform deep semantic AST compilation to extract clean Markdown, structure multi-column tables, and resolve links:
+
+```ts
+// Automatically generates an execution-scoped UUIDv4 idempotency key if omitted
+const response = await client.compile({
+  url: 'https://docs.github.com/en/rest',
+});
+
+if (response.status === 200) {
+  console.log('Markdown:\n', response.value.markdown);
+}
+```
+
+### Handle asynchronous jobs
+
+For deep crawls or complex pages that return HTTP 202 Accepted, poll for completion:
+
+```ts
+const response = await client.compile({
+  url: 'https://docs.github.com/en/rest',
+});
+
+if (response.status === 202) {
   const jobId = response.value.id;
   const job = await client.waitForJob(jobId, 1000, 60000);
   const results = await client.listJobResults(jobId);

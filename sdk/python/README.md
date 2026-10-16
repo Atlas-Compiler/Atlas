@@ -10,45 +10,83 @@ Supports both synchronous and asynchronous workflows with full type annotations,
 pip install atlascompiler
 ```
 
-## Quick Start
+## Authentication
 
-### Synchronous Client (`AtlasClient`)
+Get your API key from the [Atlas Dashboard](https://dashboard.atlas-compiler.com).
 
-```python
-import os
-from atlascompiler import AtlasClient, CompileUrlRequest
+All Atlas SDKs automatically read the `ATLAS_API_KEY` environment variable:
 
-# Initializes using explicit args or ambient environment (ATLAS_API_KEY, ATLAS_WORKSPACE_ID)
-with AtlasClient(os.getenv("ATLAS_API_KEY"), workspace_id=os.getenv("ATLAS_WORKSPACE_ID")) as client:
-    # Compile: Automatically generates UUIDv4 idempotency key when omitted
-    response = client.compile({"url": "https://example.com/article"})
-
-    if response.status == 200:
-        print("Compiled Markdown:", response.value["markdown"])
-    else:
-        # 202 Accepted: Asynchronous compilation job
-        job_id = response.value["id"]
-        job = client.wait_for_job(job_id, interval_seconds=1.0, max_wait_seconds=60.0)
-        results = client.list_job_results(job_id)
-        print("Results:", results.value["data"][0]["markdown"])
+```bash
+export ATLAS_API_KEY="atlas_your_api_key_here"
 ```
 
-### Asynchronous Client (`AsyncAtlasClient`)
+You can also pass your API key directly to the client constructor:
+
+```python
+from atlascompiler import AtlasClient
+
+# Option A: Explicit manual API key
+client = AtlasClient("atlas_your_api_key_here")
+
+# Option B: Automatically loaded from os.environ["ATLAS_API_KEY"]
+# client = AtlasClient()
+```
+
+## Usage
+
+### Scrape a page
+
+Extract clean Markdown and discovered links from any web page in real-time (sub-1.5s):
+
+```python
+response = client.scrape({
+    "url": "https://atlas-compiler.com",
+    "formats": ["markdown", "links"],
+})
+
+if response.status == 200:
+    print("Title:", response.metadata.get("title"))
+    print("Markdown:\n", response.markdown)
+```
+
+### Compile a page
+
+Perform deep semantic AST compilation to extract clean Markdown, structure multi-column tables, and resolve links:
+
+```python
+# Automatically generates an execution-scoped UUIDv4 idempotency key if omitted
+response = client.compile({"url": "https://docs.github.com/en/rest"})
+
+if response.status == 200:
+    print("Compiled Markdown:\n", response.markdown)
+```
+
+### Handle asynchronous jobs
+
+For deep crawls or complex pages that return HTTP 202 Accepted, poll for completion:
+
+```python
+response = client.compile({"url": "https://docs.github.com/en/rest"})
+
+if response.status == 202:
+    job_id = response.value["id"]
+    job = client.wait_for_job(job_id, interval_seconds=1.0, max_wait_seconds=60.0)
+    results = client.list_job_results(job_id)
+    print("Results:", results.value["data"][0]["markdown"])
+```
+
+### Asynchronous client (`AsyncAtlasClient`)
 
 ```python
 import asyncio
-import os
 from atlascompiler import AsyncAtlasClient
 
 async def main():
-    async with AsyncAtlasClient(os.getenv("ATLAS_API_KEY")) as client:
-        response = await client.compile({"url": "https://example.com/article"})
+    # Automatically reads ATLAS_API_KEY from environment
+    async with AsyncAtlasClient() as client:
+        response = await client.compile({"url": "https://docs.github.com/en/rest"})
         if response.status == 200:
-            print("Markdown:", response.value["markdown"])
-        else:
-            job = await client.wait_for_job(response.value["id"])
-            results = await client.list_job_results(job["id"])
-            print("Results:", results.value["data"][0]["markdown"])
+            print("Markdown:\n", response.markdown)
 
 asyncio.run(main())
 ```

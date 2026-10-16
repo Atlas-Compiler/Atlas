@@ -19,5 +19,5 @@ npm install
 ```bash
 npm start
 # Or compile a specific URL:
-node index.js https://news.ycombinator.com
+node index.js https://atlas-compiler.com
 ```

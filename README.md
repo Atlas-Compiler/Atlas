@@ -1,8 +1,8 @@
 <div align="center">
   <img src="AtlasLogo.png" alt="Atlas Logo" width="140" height="140" style="margin-bottom: 16px;" />
   <h1>Atlas</h1>
-  <p><strong>The web compiler that turns webpages into clean, efficient structured data for AI and developers.</strong></p>
-  <p>Transforms messy web pages, SPAs, and deep documentation into token-efficient Markdown, structured ASTs, and domain topologies with sub-1.5s latency.</p>
+  <p><strong>The web compiler that turns webpages into clean, structured and token efficient data for AI agents and developers.</strong></p>
+  <p>Transforms messy web pages, documentation, and articles into token-efficient Markdown, structured ASTs, and domain topologies with sub-1.5s latency.</p>
 
   <p>
     <a href="https://discord.gg/z9ktRhuudq"><img src="https://img.shields.io/badge/Discord-Join%20Community-5865F2?logo=discord&logoColor=white" alt="Discord" /></a>
@@ -22,16 +22,27 @@
 
 ---
 
+### What Atlas Does (Before & After)
+
+| Input (Messy Web HTML) | Atlas Output (LLM-Ready Markdown) |
+| :--- | :--- |
+| • **1.8 MB** raw DOM soup<br/>• **240,000+** tokens<br/>• Cookie modals, tracking pixels, ads, navigation clutter<br/>• Deeply nested `<div>` wrappers and inline styles | • **12 KB** high-density GitHub Flavored Markdown<br/>• **2,800** tokens (**98.8% token reduction**)<br/>• Preserved tables, clean code fences, and YAML frontmatter<br/>• **100% deterministic**, zero LLM hallucinations |
+
+---
+
 ## ⚡ Why Atlas?
 
-Traditional web scraping returns megabytes of raw, unstructured HTML bloated with navigation bars, cookie banners, tracking scripts, and presentational CSS. Feeding raw HTML into Large Language Models wastes **70% to 90% of your context window**, escalates inference costs, and increases reasoning hallucinations.
+Traditional web scraping returns megabytes of raw, unstructured HTML bloated with navigation bars, cookie banners, tracking scripts, and presentational CSS. Feeding raw HTML into Large Language Models wastes **70% to 90% of your context window**, escalates inference costs, and introduces reasoning hallucinations.
 
-**Atlas compiles the web at the edge before it reaches your models:**
-- 🧠 **0-LLM Deterministic Pipeline**: Pure heuristic AST transformation passes. Zero hallucinations, zero prompt drift, 100% reproducible output.
-- 📉 **70–90% Token Reduction**: Strips page chrome while faithfully preserving headings, tables, code fences, equations, and outbound links.
-- 🤖 **Native Model Context Protocol (MCP)**: 1-click integration with Cursor, Claude Desktop, Windsurf, VS Code, and custom AI agent loops.
-- 🚀 **Sub-1.5s Global Edge Latency**: Distributed execution across 300+ edge locations with DNS-aware SSRF protection.
-- 🛡️ **Workspace-Scoped & Idempotent**: Automatic duplicate prevention via RFC 4122 idempotency keys.
+**Atlas compiles web content into clean, token-efficient markdown at the edge—before it reaches your models:**
+- 🧠 **Deterministic by Design**: Rule-based AST heuristic passes produce identical, reliable output for identical inputs. Zero prompt drift, zero hallucinated content, and zero LLM cost during compilation.
+- 📉 **70–90% Token Reduction**: Eliminates boilerplate chrome, banners, and layout bloat while faithfully preserving headings, tables, code fences, equations, and semantic links.
+- 🤖 **Built for AI Agents**: Native Model Context Protocol (MCP) server for instant integration into Claude Desktop, Cursor, VS Code, and Windsurf, plus native SDKs (TypeScript, Python, Go) for custom agent loops.
+- ⚡ **Sub-1.5s Edge Execution**: Powered by Cloudflare Workers across 300+ edge locations with built-in DNS-aware SSRF protection.
+- 🔁 **Safe Retries & Idempotency**: Built-in request deduplication ensures retrying failed or timed-out requests never burns duplicate compute credits or double-executes jobs.
+- 🌐 **Engineered for Real-World Content**: High-fidelity extraction tailored for documentation engines (Mintlify, Docusaurus, GitBook), technical blogs, research publications, and modern SSR/SSG sites.
+
+**The result:** High-signal, token-efficient input for AI agents and RAG pipelines—without spending LLM tokens just to clean up HTML.
 
 ---
 
@@ -41,7 +52,7 @@ This monorepo houses the public ecosystem and developer tools for Atlas:
 
 | Component | Path | Language / Standard | Installation / Package |
 | :--- | :--- | :--- | :--- |
-| **Model Context Protocol** | [`mcp/`](./mcp) | MCP Standard (2026 era) | `npx -y @atlascompiler/mcp init` |
+| **Model Context Protocol** | [`mcp/`](./mcp) | MCP Standard (2026-07-28) | `npx -y @atlascompiler/mcp init` |
 | **TypeScript / JS SDK** | [`sdk/js/`](./sdk/js) | TypeScript / Node / Deno / Bun | `npm install @atlascompiler/sdk` |
 | **Python SDK** | [`sdk/python/`](./sdk/python) | Python 3.10+ (httpx, typing) | `pip install atlascompiler` |
 | **Go SDK** | [`sdk/go/`](./sdk/go) | Go 1.22+ | `go get go.atlas-compiler.com/sdk` |
@@ -52,7 +63,45 @@ This monorepo houses the public ecosystem and developer tools for Atlas:
 
 ## 🚀 Quickstarts
 
-### 1. AI Agents & Coding Assistants (MCP Server)
+### 🔑 Authentication & API Key Setup
+
+1. **Get your API Key**: Sign in to the [Atlas Dashboard](https://dashboard.atlas-compiler.com) to generate your free API key (`atlas_...`).
+2. **Set your Environment Variable** *(Recommended)*:
+   All Atlas SDKs, MCP servers, and CLI tools automatically detect `ATLAS_API_KEY`:
+
+   ```bash
+   # macOS / Linux (add to ~/.bashrc or ~/.zshrc)
+   export ATLAS_API_KEY="atlas_your_api_key_here"
+
+   # Windows PowerShell
+   $env:ATLAS_API_KEY = "atlas_your_api_key_here"
+   ```
+
+> [!TIP]
+> Prefer not to set environment variables? You can pass your API key directly into any SDK client constructor as shown below.
+
+---
+
+### Direct HTTP / cURL
+
+```bash
+# Instant Real-Time Scrape (Sub-1.5s, clean markdown output)
+curl -X POST https://api.atlas-compiler.com/v1/scrape \
+  -H "Authorization: Bearer ${ATLAS_API_KEY:-atlas_your_api_key_here}" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com"}'
+
+# Deep Semantic Compilation (includes full AST, link graph, and idempotency key)
+curl -X POST https://api.atlas-compiler.com/v1/compile \
+  -H "Authorization: Bearer ${ATLAS_API_KEY:-atlas_your_api_key_here}" \
+  -H "Idempotency-Key: $(uuidgen)" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com"}'
+```
+
+---
+
+### AI Agents & MCP Server
 
 Connect Claude Desktop, Cursor, VS Code, or Windsurf directly to Atlas with the 1-click interactive wizard:
 
@@ -60,16 +109,20 @@ Connect Claude Desktop, Cursor, VS Code, or Windsurf directly to Atlas with the 
 npx -y @atlascompiler/mcp init
 ```
 
-The wizard prompts for your Atlas API key, validates connectivity, and automatically configures your installed editors without exposing tokens in process args.
+The wizard prompts for your Atlas API key, validates connectivity, and automatically configures your installed editors.
 
 To run the Stdio server directly:
 ```bash
 npx -y @atlascompiler/mcp
 ```
 
+**For Remote / Cloud AI Agents (Streamable HTTP):**
+- **Endpoint**: `https://api.atlas-compiler.com/mcp`
+- **Headers**: `Authorization: Bearer atlas_your_api_key_here`
+
 ---
 
-### 2. TypeScript / JavaScript
+### TypeScript / JavaScript
 
 Install the official type-safe client library:
 
@@ -81,11 +134,15 @@ npm install @atlascompiler/sdk
 ```typescript
 import { AtlasClient } from '@atlascompiler/sdk';
 
+// Option A: Explicit manual API key
 const client = new AtlasClient({
-  apiKey: process.env.ATLAS_API_KEY!,
+  apiKey: 'atlas_your_api_key_here',
 });
 
-// Compile a web page into clean, structured Markdown
+// Option B: Automatically loaded from process.env.ATLAS_API_KEY
+// const client = new AtlasClient();
+
+// Compile any web page into clean, structured Markdown
 const response = await client.compile({
   url: 'https://docs.github.com/en/rest',
 });
@@ -98,7 +155,7 @@ if (response.status === 200) {
 
 ---
 
-### 3. Python
+### Python
 
 Install the official Python client library:
 
@@ -107,22 +164,28 @@ pip install atlascompiler
 ```
 
 ```python
-import os
 from atlascompiler import AtlasClient
 
-with AtlasClient(os.getenv("ATLAS_API_KEY")) as client:
-    response = client.compile({"url": "https://example.com/article"})
-    
-    if response.status == 200:
-        print("Title:", response.value["metadata"]["title"])
-        print("Markdown:\n", response.value["markdown"])
+# Option A: Explicit manual API key
+client = AtlasClient("atlas_your_api_key_here")
+
+# Option B: Automatically loaded from os.environ["ATLAS_API_KEY"]
+# client = AtlasClient()
+
+response = client.compile({"url": "https://example.com"})
+
+if response.status == 200:
+    print("Title:", response.metadata.get("title"))
+    print("Markdown:\n", response.markdown)
 ```
 
 *Async support is built-in via `AsyncAtlasClient`.*
 
 ---
 
-### 4. Go
+### Go
+
+Install the official Go module:
 
 ```bash
 go get go.atlas-compiler.com/sdk
@@ -135,13 +198,17 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 
-	"go.atlas-compiler.com/sdk"
+	atlas "go.atlas-compiler.com/sdk"
 )
 
 func main() {
-	client := atlas.New(os.Getenv("ATLAS_API_KEY"))
+	// Option A: Explicit manual API key
+	client := atlas.New("atlas_your_api_key_here")
+
+	// Option B: Automatically loaded from os.Getenv("ATLAS_API_KEY")
+	// client := atlas.New("")
+
 	res, _, err := client.Compile(context.Background(), atlas.CompileUrlRequest{
 		Url: "https://example.com",
 	})
@@ -157,26 +224,18 @@ func main() {
 
 ---
 
-### 5. Direct HTTP / cURL
-
-```bash
-curl -X POST https://api.atlas-compiler.com/v1/compile \
-  -H "Authorization: Bearer atlas_your_api_key_here" \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://example.com"}'
-```
-
----
-
 ## 🛠 Supported Operations
 
 Atlas exposes 5 core operations via REST, SDKs, and MCP:
 
-- **`compile`**: Deep 12-pass AST compilation with structural content graph extraction and visual formatting.
-- **`scrape`**: Sub-1.5s real-time Markdown extraction for low-latency agent loops (`POST /v1/scrape`).
-- **`map`**: Rapid topological spider that crawls and ranks all reachable URLs across a domain (`POST /v1/map`).
-- **`crawl`**: Bounded, asynchronous multi-page website crawls with path glob filtering (`POST /v1/crawls`).
-- **`batch`**: High-concurrency parallel retrieval for up to 500 URLs per job with unified status webhooks (`POST /v1/batches`).
+### Synchronous Operations (Real-Time)
+- **`scrape`** (`POST /v1/scrape`): Real-time Markdown, raw text, and link extraction for interactive agent loops (sub-1.5s).
+- **`compile`** (`POST /v1/compile`): Deep 12-pass AST compilation with structural content graph extraction, Table of Contents, and link resolution.
+- **`map`** (`POST /v1/map`): Rapid topological spider that crawls sitemaps and discovers reachable URLs across a domain without fetching bodies.
+
+### Asynchronous Operations (Queued Jobs)
+- **`crawl`** (`POST /v1/crawls`): Bounded, asynchronous multi-page website crawls with path glob filtering and progress tracking (`202 Accepted`).
+- **`batch`** (`POST /v1/batches`): High-concurrency parallel retrieval for up to 500 URLs per job with unified status webhooks (`202 Accepted`).
 
 ---
 

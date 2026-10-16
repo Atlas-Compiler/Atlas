@@ -8,55 +8,87 @@ The official Go client library for the [Atlas](https://atlas-compiler.com) API.
 go get go.atlas-compiler.com/sdk
 ```
 
-## Quick Start
+## Authentication
 
-### Initialize Client
+Get your API key from the [Atlas Dashboard](https://dashboard.atlas-compiler.com).
+
+All Atlas SDKs automatically read the `ATLAS_API_KEY` environment variable:
+
+```bash
+export ATLAS_API_KEY="atlas_your_api_key_here"
+```
+
+You can also pass your API key directly to the client constructor:
 
 ```go
 package main
 
 import (
-	"context"
-	"fmt"
-	"log"
-	"os"
-	"time"
-
-	"go.atlas-compiler.com/sdk"
+	atlas "go.atlas-compiler.com/sdk"
 )
 
 func main() {
-	// Canonical functional constructor
-	client := atlas.New(
-		os.Getenv("ATLAS_API_KEY"),
-		atlas.WithWorkspaceID(os.Getenv("ATLAS_WORKSPACE_ID")),
-		atlas.WithTimeout(30*time.Second),
-	)
+	// Option A: Explicit manual API key
+	client := atlas.New("atlas_your_api_key_here")
 
-	// Or rely on ambient environment variables (ATLAS_API_KEY, ATLAS_WORKSPACE_ID, ATLAS_BASE_URL):
+	// Option B: Automatically loaded from os.Getenv("ATLAS_API_KEY")
 	// client := atlas.New("")
 }
 ```
 
-### Compile or Scrape a Web Page
+## Usage
+
+### Scrape a page
+
+Extract clean Markdown and discovered links from any web page in real-time (sub-1.5s):
 
 ```go
 ctx := context.Background()
 
-// Compile: Automatically generates an execution-scoped UUIDv4 idempotency key
-// if none is explicitly provided.
+res, meta, err := client.Scrape(ctx, atlas.ScrapeUrlRequest{
+	Url: "https://atlas-compiler.com",
+})
+if err != nil {
+	log.Fatalf("Scrape error: %v", err)
+}
+
+fmt.Printf("HTTP Status: %d (Replayed: %t)\n", meta.StatusCode, meta.Replayed)
+if res.Data.Markdown != nil {
+	fmt.Println(*res.Data.Markdown)
+}
+```
+
+### Compile a page
+
+Perform deep semantic AST compilation to extract clean Markdown, structure multi-column tables, and resolve links:
+
+```go
+// Automatically generates an execution-scoped UUIDv4 idempotency key if omitted
 res, meta, err := client.Compile(ctx, atlas.CompileUrlRequest{
-	Url: "https://example.com/article",
+	Url: "https://docs.github.com/en/rest",
 })
 if err != nil {
 	log.Fatalf("Compile error: %v", err)
 }
 
 if res.Response200 != nil {
-	// Synchronous instant compilation
 	fmt.Println("Compiled markdown:\n", res.Response200.Markdown)
-} else if res.Response202 != nil {
-	// Asynchronous compilation job
+}
+```
+
+### Handle asynchronous jobs
+
+For deep crawls or complex pages that return HTTP 202 Accepted, poll for completion:
+
+```go
+res, meta, err := client.Compile(ctx, atlas.CompileUrlRequest{
+	Url: "https://docs.github.com/en/rest",
+})
+if err != nil {
+	log.Fatalf("Compile error: %v", err)
+}
+
+if res.Response202 != nil {
 	jobID := res.Response202.Id
 	fmt.Printf("Job queued with ID %s. Polling for completion...\n", jobID)
 
