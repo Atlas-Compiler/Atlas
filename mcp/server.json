@@ -3,7 +3,7 @@
   "name": "com.atlas-compiler/atlas",
   "title": "Atlas Web Compiler & Scraper",
   "description": "Deterministic Zero-LLM Web Compiler, Scraper, Crawler, and Site Mapper for AI Agents.",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "websiteUrl": "https://atlas-compiler.com",
   "icons": [
     {
@@ -23,7 +23,7 @@
     {
       "registryType": "npm",
       "identifier": "@atlascompiler/mcp",
-      "version": "1.0.3",
+      "version": "1.0.5",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
@@ -31,8 +31,9 @@
       "environmentVariables": [
         {
           "name": "ATLAS_API_KEY",
-          "description": "Atlas API Key for deterministic high-throughput web scraping and compilation",
-          "isRequired": false,
+          "description": "Your Atlas API key. Obtain one at https://dashboard.atlas-compiler.com",
+          "placeholder": "atlas_...",
+          "isRequired": true,
           "isSecret": true
         }
       ]

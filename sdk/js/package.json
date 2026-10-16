@@ -1,6 +1,6 @@
 {
   "name": "@atlascompiler/sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official Atlas JavaScript & TypeScript SDK - Deterministic Zero-LLM Web Compiler and Scraper for AI",
   "type": "module",
   "main": "./dist/index.cjs",

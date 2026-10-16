@@ -24,7 +24,11 @@ Connects AI coding assistants, agents, and LLMs (Cursor, Claude Desktop, Windsur
 
 ## Quick Start
 
-### 1. Interactive Setup Wizard (Recommended)
+### Get your API key
+
+Sign in to the [Atlas Dashboard](https://dashboard.atlas-compiler.com) to generate your free API key (`atlas_...`).
+
+### Interactive setup wizard (Recommended)
 
 Run the 1-click interactive setup wizard to validate your API key and automatically configure your desktop editors (Claude Desktop, Cursor, VS Code, Windsurf):
 
@@ -46,7 +50,7 @@ The wizard:
 - Distinguishes standard clients (`mcpServers`) from VS Code workspace format (`servers`).
 - Optionally installs the canonical Atlas Agent Skill for local or global agent discovery.
 
-### 2. Run Stdio Server Directly
+### Run Stdio server directly
 
 Once configured via `init`, you can run the MCP server with zero flags or environment variables:
 
@@ -54,12 +58,17 @@ Once configured via `init`, you can run the MCP server with zero flags or enviro
 npx -y @atlascompiler/mcp
 ```
 
-### 3. CI/CD & Headless Environments
+### Headless & CI/CD environments
 
 In automated pipelines, containerized environments, or ephemeral workers, supply credentials via the `ATLAS_API_KEY` environment variable:
 
 ```bash
+# macOS / Linux
 export ATLAS_API_KEY="atlas_your_api_key_here"
+
+# Windows PowerShell
+$env:ATLAS_API_KEY = "atlas_your_api_key_here"
+
 npx -y @atlascompiler/mcp
 ```
 
@@ -114,22 +123,28 @@ curl -fsSL https://atlas-compiler.com/skill.md -o .agents/skills/atlas/SKILL.md
 
 ## Client Setup Configurations
 
-Because `@atlascompiler/mcp` resolves credentials directly from `~/.atlas/credentials.json`, your editor configuration files never need hardcoded API keys!
+You can configure your editor in two ways:
+1. **Interactive Setup Wizard (Recommended)**: Run `npx -y @atlascompiler/mcp init` to store credentials securely in `~/.atlas/credentials.json` (POSIX `0600`). Editor config files remain clean with no tokens checked into git.
+2. **Direct Manual Configuration**: Add the server block below with your `ATLAS_API_KEY` directly in your editor's MCP config file.
 
 ### Cursor IDE
 
-Add the server to your Cursor MCP settings (`~/.cursor/mcp.json` for global, or `.cursor/mcp.json` in your repository for project scope):
+Add the server to your Cursor MCP settings (`~/.cursor/mcp.json` for global, or `.cursor/mcp.json` in your repository):
 
 ```json
 {
   "mcpServers": {
     "atlas": {
       "command": "npx",
-      "args": ["-y", "@atlascompiler/mcp"]
+      "args": ["-y", "@atlascompiler/mcp"],
+      "env": {
+        "ATLAS_API_KEY": "atlas_your_api_key_here"
+      }
     }
   }
 }
 ```
+*(If you already ran `atlas-mcp init`, the `"env"` block can be omitted.)*
 
 ### VS Code
 
@@ -140,7 +155,10 @@ Add the server to your project's `.vscode/mcp.json`:
   "servers": {
     "atlas": {
       "command": "npx",
-      "args": ["-y", "@atlascompiler/mcp"]
+      "args": ["-y", "@atlascompiler/mcp"],
+      "env": {
+        "ATLAS_API_KEY": "atlas_your_api_key_here"
+      }
     }
   }
 }
@@ -160,7 +178,10 @@ Add the server to your Claude Desktop configuration:
   "mcpServers": {
     "atlas": {
       "command": "npx",
-      "args": ["-y", "@atlascompiler/mcp"]
+      "args": ["-y", "@atlascompiler/mcp"],
+      "env": {
+        "ATLAS_API_KEY": "atlas_your_api_key_here"
+      }
     }
   }
 }
@@ -175,7 +196,10 @@ Add the server to `~/.codeium/windsurf/mcp_config.json`:
   "mcpServers": {
     "atlas": {
       "command": "npx",
-      "args": ["-y", "@atlascompiler/mcp"]
+      "args": ["-y", "@atlascompiler/mcp"],
+      "env": {
+        "ATLAS_API_KEY": "atlas_your_api_key_here"
+      }
     }
   }
 }
@@ -197,16 +221,27 @@ For remote agents or the official [MCP Inspector](https://github.com/modelcontex
 
 ## Available MCP Tools
 
-### 1. `atlas_compile`
+Atlas exposes 5 focused tools for AI coding assistants and agent workflows:
+
+| # | Tool | Description | Best For |
+| :-: | :--- | :--- | :--- |
+| **1** | [`atlas_compile`](#atlas_compile) | Deep 12-pass AST compilation into high-density Markdown | Complex docs, API references, tables, and code blocks |
+| **2** | [`atlas_scrape`](#atlas_scrape) | Fast single-page content and link extraction | Articles, blog posts, news, and raw text |
+| **3** | [`atlas_map`](#atlas_map) | Domain topology spider and sitemap explorer | Discovering reachable URLs without downloading page bodies |
+| **4** | [`atlas_batch_compile`](#atlas_batch_compile) | Concurrent parallel compilation (up to 20 URLs) | Multi-page comparisons and batch data ingestion |
+| **5** | [`atlas_crawl`](#atlas_crawl) | Bounded recursive website crawl with path glob filtering | Section-specific site crawls (e.g. `/docs/**`) |
+
+---
+
+### `atlas_compile`
 Compile any web page into a structured, high-density markdown document optimized for LLM reasoning.
 
 ```ts
 {
-  url: string;               // Required: Absolute HTTP/HTTPS URL
-  format?: 'markdown' | 'semantic'; // 'semantic' includes heading boundaries & section IDs
-  max_output_chars?: number; // Maximum characters to return in the tool response (default: 25000)
-  include_toc?: boolean;     // Prepend a structured Table of Contents (default: true)
-  force_fresh?: boolean;     // Bypass CDN and cache layers (default: false)
+  url: string;                          // Required: Absolute HTTP/HTTPS URL
+  format?: 'markdown' | 'semantic' | 'markdown+links'; // 'semantic' includes AST graph; 'markdown+links' appends links
+  max_output_chars?: number;            // Maximum characters to return in the tool response (default: 30000)
+  force_fresh?: boolean;                // Bypass edge cache and force fresh compile from origin (default: false)
 }
 ```
 
@@ -215,32 +250,32 @@ Compile any web page into a structured, high-density markdown document optimized
 
 ---
 
-### 2. `atlas_scrape`
+### `atlas_scrape`
 Fast, lightweight single-page extraction when deep compilation isn't required.
 
 ```ts
 {
   url: string;                          // Required: Absolute HTTP/HTTPS URL
   formats?: Array<'markdown' | 'links' | 'text'>; // Formats to extract (default: ['markdown'])
-  max_output_chars?: number;            // Capping threshold (default: 20000)
-  timeout_ms?: number;                  // Maximum fetch timeout (default: 15000)
+  max_output_chars?: number;            // Capping threshold (default: 30000)
+  timeout_ms?: number;                  // Maximum fetch timeout in milliseconds (default: 15000)
 }
 ```
 
 **Example Agent Invocation:**
-> *"Scrape the main text and links from `https://news.ycombinator.com`."*
+> *"Scrape the main text and links from `https://atlas-compiler.com`."*
 
 ---
 
-### 3. `atlas_map`
+### `atlas_map`
 Discover site topology, sitemaps, and reachable URLs on a target domain without downloading page bodies.
 
 ```ts
 {
-  url: string;                          // Required: Root URL or domain
+  url: string;                          // Required: Root URL or domain (e.g. 'https://docs.github.com')
   limit?: number;                       // Maximum URLs to return (1-500, default: 100)
   include_subdomains?: boolean;         // Follow subdomains (default: false)
-  sitemap?: 'include' | 'only' | 'ignore'; // Sitemap handling strategy (default: 'include')
+  sitemap?: 'include' | 'skip' | 'only'; // Sitemap inspection strategy (default: 'include')
 }
 ```
 
@@ -249,13 +284,13 @@ Discover site topology, sitemaps, and reachable URLs on a target domain without 
 
 ---
 
-### 4. `atlas_batch_compile`
+### `atlas_batch_compile`
 Compile multiple pages in parallel (up to 20 URLs) with per-document success/failure aggregation.
 
 ```ts
 {
   urls: string[];                       // Required: Array of 1 to 20 URLs
-  format?: 'markdown' | 'semantic';     // Content format
+  format?: 'markdown' | 'semantic' | 'markdown+links'; // Content format (default: 'markdown')
   max_output_chars_per_page?: number;   // Character cap per document (default: 15000)
 }
 ```
@@ -265,16 +300,16 @@ Compile multiple pages in parallel (up to 20 URLs) with per-document success/fai
 
 ---
 
-### 5. `atlas_crawl`
+### `atlas_crawl`
 Bounded crawl of a website starting from a seed URL with link discovery, depth limits, and path filtering.
 
 ```ts
 {
-  url: string;               // Required: Seed URL to begin crawling
-  max_pages?: number;        // Maximum pages to process (1-20, default: 10)
-  max_depth?: number;        // Maximum link hops (1-3, default: 2)
-  include_paths?: string[];  // URL path substrings to require (e.g. ['/docs/', '/guides/'])
-  exclude_paths?: string[];  // URL path substrings to skip (e.g. ['/changelog/', '/blog/'])
+  url: string;                          // Required: Seed URL to begin crawling
+  max_pages?: number;                   // Maximum pages to process (1-50, default: 10)
+  max_depth?: number;                   // Maximum link hops (1-5, default: 2)
+  include_paths?: string[];             // Path glob patterns to restrict compilation (e.g. ['/docs/**', '/reference/**'])
+  exclude_paths?: string[];             // Path glob patterns to skip (e.g. ['/changelog/**', '/**/pricing'])
 }
 ```
 
@@ -307,7 +342,12 @@ import { StdioServerTransport } from '@modelcontextprotocol/server';
 
 const server = createAtlasMcpServer({
   context: {
-    apiKey: process.env.ATLAS_API_KEY,
+    // Option A: Explicit manual API key
+    apiKey: 'atlas_your_api_key_here',
+
+    // Option B: Automatically loaded from process.env.ATLAS_API_KEY
+    // apiKey: process.env.ATLAS_API_KEY,
+
     baseUrl: 'https://api.atlas-compiler.com',
   },
 });
